@@ -71,19 +71,20 @@ public class Balade {
 		}
 	}
 	public void afficheRecapBal(Set<Membre> listMembreCat){
-		int som = 0;
+		int som = 0,nbreVoiture=0;
 		for(Voiture voiture : this.listVoiture){
 			voiture.afficheRecapVoiture();
 			som += voiture.totalPassageVoi();
 			System.out.println();
+			nbreVoiture++;
 		}
-		if(som<listMembreCat.size()){
+		if(som<listMembreCat.size()-nbreVoiture){
 			System.out.println("nous avons : "+(listMembreCat.size()-som)+ " qui n'ont pas de voiture");	
 		}
-		else if(som<listMembreCat.size()){
+		else if(som==listMembreCat.size()-nbreVoiture){
 			System.out.println(" tout le monde a une place dans une voiture ");	
 		}
 		else
-			System.out.println(" quelqu'un a reseve plus d'une place ");	
+			System.out.println(" quelqu'un a reseve plus d'une place ");
 	}
 }
