@@ -3,6 +3,8 @@ package UTILITAIRE;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import CLASSES_BEANS.*;
 
@@ -14,7 +16,7 @@ public class FonctionUtile {
 	public static Boolean testValeur(int[] tab,int nbre){
 		Boolean etat =true;
 		int i=0;
-		while(i<tab.length && etat==true){
+		while(i<tab.length && etat){
 			if(tab[i]==nbre){
 				etat=false;
 			}
@@ -180,7 +182,7 @@ public class FonctionUtile {
 		Calendar calendar2 = Calendar.getInstance();
 	    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
 	    
-		System.out.println("voulez-vous continuez comme  membre ou comme responsable de la categorie Cyclo ");
+		System.out.println("voulez-vous continuez comme  membre ou comme responsable de votre categorie  ");
 		System.out.println("1\t membre");
 		System.out.println("2\t responsable de la categorie ");
 		System.out.print("votre choix :");choix = Clavier.lireInt();
@@ -348,7 +350,9 @@ public class FonctionUtile {
 			System.out.println(" pour confirmer entrer 0 et autre nombre pour modifier ");confirme=Clavier.lireInt();
 		}
 		else{
-			System.out.println(" il existe deja un membre avec cette email ");confirme=1;
+			System.out.println();
+			System.out.println(" il existe deja un membre avec cette email et ce mot de passe veuillez entrer de nouvelle infos ");confirme=1;
+			System.out.println();
 		}
 		}while(confirme!=0);
 		Membre membre =new Membre(nom,prenom,email,password,"membre");
@@ -381,9 +385,30 @@ public class FonctionUtile {
 				}
 				
 		}while(membre==null);
+		/***************************************************************************************************************************************/
+		/**                                                    se connecter comme tresorier                                                   **/
+		/***************************************************************************************************************************************/
 		if(membre.getStatut().compareTo("membre")!=0){
-			if(membre.getStatut()=="tresorier"){
-				
+			if(membre.getStatut().compareTo("tresorier")==0){
+				int sortir=0,choix=0;
+				do{
+					System.out.println("voulez-vous continuez comme  membre ou tresorier  ");
+					System.out.println("1\t membre");
+					System.out.println("2\t tresorier ");
+					System.out.print("votre choix :");choix = Clavier.lireInt();
+					while(choix<1 || choix>2){
+						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 2");
+						choix = Clavier.lireInt();
+					}
+					if(choix==1){
+						FonctionUtile.ISMmenbre(membre);
+					}
+					else{
+						FonctionUtile.ISTreserier();
+					}
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
 			}
 			/***************************************************************************************************************************************/
 			/**                                                    se connecter comme responsable categorie                                       **/
@@ -421,7 +446,7 @@ public class FonctionUtile {
 			}while(sortir==0);
 			}
 			else
-			{System.out.println(membre.getStatut());System.exit(0);}
+			{System.out.println("ya un probleme avec les donnees provenant de DB ");System.exit(0);}
 		}
 		else{
 			/***************************************************************************************************************************************/
@@ -435,5 +460,98 @@ public class FonctionUtile {
 			}while(sortir==0);
 		}
 		System.out.println(" aurevoir ");
+	}
+	public static void ISTreserier(){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		Set<Membre> listAllMembreP = new HashSet<Membre>();
+		Set<Membre> listAllMembreN = new HashSet<Membre>();
+		Set<Membre> listAllMembrePN = new HashSet<Membre>();
+		int count=0,montantApaye=0,choix=0 ,numMembre=0 ,i=0,valeur=0;
+    	Tresorier tresorier =new Tresorier();
+		dao<Tresorier> TresorierDao = adf.getTresorierDAO();
+		tresorier=TresorierDao.find(0);
+		int[] tabData1  = new int[tresorier.getListAllMembre().size()];
+		for(Membre membre : tresorier.getListAllMembre()){
+			count=membre.getListCategorie().size();
+			montantApaye=20+(count-1)*5;
+			if(membre.getPaye()==montantApaye){
+				listAllMembreP.add(membre);
+			}
+			else if(membre.getPaye()<montantApaye){
+				listAllMembreN.add(membre);
+			}
+			else{
+				listAllMembrePN.add(membre);
+			}
+		}
+		System.out.println(" ********************************  Liste des personnes qui ont tout payes **************************************************");
+		for(Membre membre : listAllMembreP){
+			System.out.println("numero    : "+ membre.getId());
+			System.out.println("nom       : "+ membre.getNom());
+			System.out.println("prenom    : "+membre.getPrenom());
+			count=0;
+			System.out.println("categorie :");
+			for( Categorie cat : membre.getListCategorie()){
+				System.out.println("\t  - "+cat.getNomCategorie());
+				count++;
+			}
+			System.out.println("---------------------------------------------------------------");
+		}
+		System.out.println(" ********************************  Liste des personnes qui n'ont pas tout payes **************************************************");
+	
+		for(Membre membre : listAllMembreN){
+			tabData1[i]=membre.getId();
+			i++;
+			System.out.println("numero    : "+ membre.getId());
+			System.out.println("nom       : "+ membre.getNom());
+			System.out.println("prenom    : "+membre.getPrenom());
+			count=0;
+			System.out.println("categorie :");
+			for( Categorie cat : membre.getListCategorie()){
+				System.out.println("\t  - "+cat.getNomCategorie());
+				count++;
+			}
+			montantApaye=20+(count-1)*5;
+			System.out.println("reste a payer : "+(montantApaye-membre.getPaye()) + " €");
+			System.out.println("---------------------------------------------------------------");
+		}
+		System.out.println(" ********************************  Liste des personnes qui on un probleme  **************************************************");
+		for(Membre membre : listAllMembrePN){
+			System.out.println("numero    : "+ membre.getId());
+			System.out.println("nom       : "+ membre.getNom());
+			System.out.println("prenom    : "+membre.getPrenom());
+		
+			System.out.println("categorie :");
+			for( Categorie cat : membre.getListCategorie()){
+				System.out.println("\t  - "+cat.getNomCategorie());
+	
+			}
+			System.out.println("---------------------------------------------------------------");
+		}
+		
+		
+		System.out.println();
+		System.out.println("**************************************** que voulez faire :***************************************************************");
+		System.out.println("1\t faire une mise a jour ");
+		System.out.println("2\t quitter  ");
+		System.out.print(" votre choix :  ");choix=Clavier.lireInt();System.out.println();
+		while(choix<1 || choix>2){
+			System.out.print("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 2 ");
+			choix = Clavier.lireInt();System.out.println();
+		}
+		if(choix==1){
+			System.out.print(" entre le numero du membre :"); numMembre= Clavier.lireInt();System.out.println();
+			while(FonctionUtile.testValeur(tabData1,numMembre)){
+				System.out.print(" entre le numero de membre  n'a pas tout paye  :"); numMembre = Clavier.lireInt(); System.out.println();
+			}
+			System.out.print("entrer la valeur a ajouter : ");valeur = Clavier.lireInt(); System.out.println();
+			Membre membre1= new Membre();
+			dao<Membre> membreDao = adf.getMembreDAO();
+			membre1=membreDao.find(numMembre);
+			System.out.println(" JE SUIS DANS FONCTION UTILE :"+membre1.getNom()+" +++ "+membre1.getId());
+			membreDao.update(new Membre(membre1.getId(),membre1.getNom(),membre1.getPrenom(),membre1.getEmail(),membre1.getPassword(),membre1.getStatut(),membre1.getPaye()+valeur));
+		}
+		else
+			System.exit(0);	
 	}
 }

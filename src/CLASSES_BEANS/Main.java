@@ -1,10 +1,10 @@
 package CLASSES_BEANS;
+
 import UTILITAIRE.*;
 
 
 public class Main {
 	public static void main(String[] args) {
-
 		int choix2=0;
 		System.out.println("Bienvenue");
 		System.out.println("1\t se connecter ");

@@ -7,6 +7,7 @@ public class Personne {
 	private String statut;
 	private String email;
 	private String password;
+	private int paye=0;
 	public Personne(){}
 	public Personne(String nom,String prenom,String email,String password,String statut){
 		this.nom=nom;
@@ -14,6 +15,14 @@ public class Personne {
 		this.statut=statut;
 		this.email=email;
 		this.password=password;
+	}
+	public Personne(String nom,String prenom,String email,String password,String statut,int paye){
+		this.nom=nom;
+		this.prenom=prenom;
+		this.statut=statut;
+		this.email=email;
+		this.password=password;
+		this.paye=paye;
 	}
 	public String getNom(){
 		return nom;
@@ -51,4 +60,11 @@ public class Personne {
 	public  void setPassword(String password){
 		this.password=password;
 	}
+	public int getPaye() {
+		return paye;
+	}
+	public void setPaye(int paye) {
+		this.paye = paye;
+	}
+	
 }

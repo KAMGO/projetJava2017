@@ -15,6 +15,10 @@ public class Membre extends Personne{
 		super(nom, prenom,email,password,statut_pers);
 		this.id=id;
 	}
+	public Membre(int id,String nom,String prenom,String email,String password,String statut_pers,int paye){
+		super(nom, prenom,email,password,statut_pers,paye);
+		this.id=id;
+	}
 	public int getId(){
 		return id;
 	}

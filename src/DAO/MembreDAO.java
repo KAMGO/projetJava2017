@@ -1,6 +1,7 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,7 +18,6 @@ public class MembreDAO  extends dao<Membre>{
 	public boolean create(Membre membre) {
 	  	boolean etat = false;
 	    try{
-	  	  System.out.println("bonjour :"+membre.getNom());
 	  	   Statement st = this.connect.createStatement();
 	  		  String req = "INSERT INTO Personne (nom_pers,prenom_pers,email_pers,password_pers,statut_pers) VALUES ('"+membre.getNom()+"','"+membre.getPrenom()+"','"+membre.getEmail()+"','"+membre.getPassword()+"','"+membre.getStatut()+"')";
 	  		  st.executeUpdate(req);
@@ -37,15 +37,44 @@ public class MembreDAO  extends dao<Membre>{
 	}
 
 	@Override
-	public boolean update(Membre obj) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Membre membre) {
+	  	boolean etat = false;
+	    try{	  		  
+	  	      Statement state = this.connect.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	  	      PreparedStatement prepare = this.connect.prepareStatement("UPDATE Personne set paye = ? "+"WHERE id_pers = "+membre.getId());
+	  		  prepare.setInt(1,membre.getPaye());
+	  		  prepare.executeUpdate();
+	  		      etat = true;
+	  		  } 
+	    catch(SQLException e) {
+	  	   e.getStackTrace();
+	  	}
+	  return etat;
 	}
 
-	@Override
 	public Membre find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Membre membre = null;            
+		  try {
+		    ResultSet result = this.connect.createStatement(
+		      ResultSet.TYPE_SCROLL_INSENSITIVE, 
+		      ResultSet.CONCUR_READ_ONLY
+		    ).executeQuery(
+		      "SELECT * FROM Personne "+
+		      " where id_pers = '"+id+"'"
+		    );
+		    if(result.first()){
+		    	membre= new Membre(); 
+		    	membre = new Membre( result.getInt("id_pers"),result.getString("nom_pers"),result.getString("prenom_pers"),result.getString("email_pers"),result.getString("password_pers"),result.getString("statut_pers"),result.getInt("paye"));  
+			    result = this.connect.createStatement().executeQuery("SELECT * FROM PersonneCategorie inner join Categorie on id_cat1=id_cat WHERE id_pers3 = " + result.getInt("id_pers"));
+					  
+				    while(result.next())
+				          membre.addCategorie(new Categorie(result.getInt("id_cat"),result.getString("nom_cat")));
+				     
+		    }
+		  } catch (SQLException e) {
+		    e.printStackTrace();
+		  }
+		  return membre;
 	}
 		  public Membre connecter(String email,String password){
 				Membre membre = null;            

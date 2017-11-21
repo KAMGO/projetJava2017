@@ -1,6 +1,8 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import CLASSES_BEANS.Tresorier;
 
@@ -31,8 +33,25 @@ public class TresorierDAO extends dao<Tresorier> {
 
 	@Override
 	public Tresorier find(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Tresorier tresorier1=null;
+		Tresorier tresorier = new Tresorier();          
+	    try {
+	      ResultSet result = this.connect.createStatement(
+	        ResultSet.TYPE_SCROLL_INSENSITIVE,
+	        ResultSet.CONCUR_READ_ONLY).executeQuery("SELECT * FROM Personne ");
+	      if(result.first()){
+	    	  MembreDAO membreDAO = new MembreDAO(this.connect);
+	    	  tresorier = new Tresorier(id);
+	    	  tresorier.addMembre(membreDAO.find(result.getInt("id_pers")));
+		      while(result.next())
+		    	  tresorier.addMembre(membreDAO.find(result.getInt("id_pers")));
+		      tresorier1=tresorier;
+	      }
+	      	
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	    return tresorier1;
 	}
 
 	@Override
