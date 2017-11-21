@@ -79,12 +79,17 @@ public class Balade {
 			nbreVoiture++;
 		}
 		if(som<listMembreCat.size()-nbreVoiture){
-			System.out.println("nous avons : "+(listMembreCat.size()-som)+ " qui n'ont pas de voiture");	
+			System.out.println("nous avons : "+(listMembreCat.size()-som)+ " qui n'ont pas de voiture donc manque de chauffeur");	
 		}
 		else if(som==listMembreCat.size()-nbreVoiture){
 			System.out.println(" tout le monde a une place dans une voiture ");	
 		}
 		else
 			System.out.println(" quelqu'un a reseve plus d'une place ");
+	}
+	public void afficheForfaitBalade(int nbrekm,int prixUnitaire){
+		for(Voiture voiture : this.listVoiture){
+			voiture.affichForfaitCalcul(nbrekm, prixUnitaire);
+		}	
 	}
 }

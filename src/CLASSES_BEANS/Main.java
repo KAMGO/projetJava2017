@@ -100,12 +100,13 @@ public class Main {
 					FonctionUtile.ISMmenbre(membre);
 				}
 				else{
-					System.out.print(" que voulez-faire  : ");
-					System.out.print(" 1\t ajouter une balade : ");
-					System.out.print(" 2\t afficher le recapitulatif des disponibilites ");
+					System.out.println(" que voulez-faire  : ");
+					System.out.println(" 1\t ajouter une balade : ");
+					System.out.println(" 2\t afficher le recapitulatif des disponibilites ");
+					System.out.println(" 3\t affiche le montant a payer par covoitureur   ");
 					System.out.print("votre choix : ");choix= Clavier.lireInt();
-					while(choix<1 || choix>2){
-						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 2");
+					while(choix<1 || choix>3){
+						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 3");
 						choix = Clavier.lireInt();
 					}
 					if(choix==1){
@@ -142,24 +143,62 @@ public class Main {
 						dao<Balade> baladeDAO = adf.getBaladeDAO();
 						baladeDAO.create(balade);
 					}
-					else{
+					else if(choix==2){
 
 						Calendrier calendrier = new Calendrier() ;
 						dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
-						CatPersonne catPers = new CatPersonne() ;
+						CatPersonne catPers = new CatPersonne();
 						dao<CatPersonne> catPersrDao = adf.getCatPersonneDAO();
 						
 						calendrier=calendrierDao.baladeCategorie(1);
-						calendrier.afficheCalandrier();
+						//calendrier.afficheCalandrier();
 						calendrier.getListBalade();
 						int k1=0;
 						Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
 						for (Balade balade : calendrier.getListBalade()){
 							tabData2[k1++]=balade;
-							balade.afficheRecapBal(catPersrDao.find(1).getListMembreCat());
+							System.out.println(" numero balade : "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
 						}
-						
-						
+						System.out.println(" entre le numero d'une balade  "); choix=Clavier.lireInt();
+						while(choix<1 || choix>k1){
+							System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET "+k1);
+							choix = Clavier.lireInt();
+						}
+						System.out.println();
+						System.out.println();
+						if(k1!=0)
+							tabData2[choix-1].afficheRecapBal(catPersrDao.find(1).getListMembreCat());
+						else
+							System.out.println("desole y a pas de balade ");
+					}
+					else{
+						int nbrekm=0,prixunit=0;
+						Calendrier calendrier = new Calendrier() ;
+						dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
+						calendrier=calendrierDao.baladeCategorie(1);
+						int k1=0;
+						Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
+						for (Balade balade : calendrier.getListBalade()){
+							tabData2[k1++]=balade;
+							System.out.print(" numero balade :  "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
+						}
+						if(k1!=0){
+							System.out.println();
+							System.out.print(" entre le numero d'une balade  "); choix=Clavier.lireInt();
+							while(choix<1 || choix>k1){
+								System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET "+k1);
+								choix = Clavier.lireInt();
+							}
+							System.out.println();
+							System.out.println();
+							System.out.print("entre le nombre de kilometre pour arriver au lieu de depart de cette balade"); nbrekm=Clavier.lireInt();
+							System.out.println();
+							System.out.print(" entrer le prix unitaire pour un km  "); prixunit=Clavier.lireInt();
+							System.out.println();
+							tabData2[choix-1].afficheForfaitBalade(nbrekm, prixunit);
+						}
+						else
+							System.out.println("desole y a pas de balade ");
 					}
 				}
 			}
