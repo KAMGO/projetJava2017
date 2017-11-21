@@ -105,11 +105,11 @@ public class Voiture {
 	public float affichForfaitCalcul(int nbrekm,float prixUnitaire){
 		 float som =0, somTotal=nbrekm*prixUnitaire;
 		if(this.totalPassageVoi()==0){
-			System.out.println(" imposible de calcul un forfait car il n'y a pas de covoitureur dans la voiture  "+this.id);
+			System.out.println( "dans la voiture   "+this.id + " imposible de calcul un forfait car il n'y a pas de covoitureur");
 		}
 		else{
 			som =somTotal/(this.totalPassageVoi()+1);
-			System.out.println("tout les covoitureurs de la voiture  "+ this.id + "  doivent payer : "+som);
+			System.out.println("tous les covoitureurs de la voiture  "+ this.id + "  doivent payer : "+som);
 		}
 		return som;
 	}

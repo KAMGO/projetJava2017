@@ -25,15 +25,8 @@ public class FonctionUtile {
 	public static void ISMmenbre(Membre membre){
 
 		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-	 	int numBalade;
-		int numVoiture;
-		int numPers=membre.getId();
-		int totalresaV=0;
-		int totalresaP=0;
-		int n=0;
-		int nbrplace=0;
-		int nbrevelo=0;
-		int numCategorie=0; 
+	 	int numBalade, numVoiture, numPers=membre.getId(), totalresaV=0, totalresaP=0, n=0;
+		int nbrplace=0, nbrevelo=0, numCategorie=0; 
 		Calendrier calendrier = new Calendrier() ;
 		dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
 		calendrier=calendrierDao.find(membre.getId());
@@ -52,7 +45,7 @@ public class FonctionUtile {
 			 calendrier.afficheCalandrier();
 			 System.out.println("\n********************************************************************************************************");
 			 System.out.println();
-			 System.out.println("\n Choisir le numero d'une balade ");numBalade = Clavier.lireInt();
+			 System.out.print("\n Choisir le numero d'une balade ");numBalade = Clavier.lireInt();System.out.println();
 
 			while(FonctionUtile.testValeur(tabData2, numBalade)){
 				System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE CORRESPONDANT A UN NOMBRE CI-DESSUS");
@@ -75,55 +68,60 @@ public class FonctionUtile {
 					Balade balade = new Balade();
 					dao<Balade> baladeDAO = adf.getBaladeDAO();
 					balade=baladeDAO.find(numBalade);
-					int[] tabData1  = new int[balade.getListVoiture().size()];
-					for(Voiture voiture : balade.getListVoiture())
-						tabData1[k++]=voiture.getId_balade();
-					balade.afficheListVoiture();
-					 System.out.println(); System.out.println();
-					 System.out.print("choisir un numero correspondant a votre voiture : ");numVoiture = Clavier.lireInt();
-					 System.out.println();
-					while(FonctionUtile.testValeur(tabData1, numVoiture)){
-						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE CORRESPONDANT A UN NOMBRE CI-DESSUS");
-						numVoiture = Clavier.lireInt();
+					if(balade.getListVoiture().size()==0){
+						System.out.println("Cette balade n'a pas encore de voiture ");
 					}
-					Voiture voiture = new Voiture();
-					dao<Voiture> voitureDao = adf.getVoitureDAO();
-					voiture=voitureDao.find(numVoiture);
-					for (Passage passage :voiture.getListPassage()){
-						totalresaP+= passage.getNbrPlaceresa();
-						totalresaV+= passage.getNbrveloresa();
-					}
-					if(totalresaP<voiture.getNbres_pers_max()){
-						 System.out.println("combien de place reservez vous sachant que dans cette voiture il ne reste plus que : "+(voiture.getNbres_pers_max()-totalresaP)+
-								 "place (s) personne(s)");nbrplace= Clavier.lireInt();
-							while(nbrplace<0 || nbrplace>voiture.getNbres_pers_max()-totalresaP){
-								System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET  "+(voiture.getNbres_pers_max()-totalresaP));
-								nbrplace = Clavier.lireInt();
-							}
-						 
-					 }
-					
-						
-						if(totalresaV<voiture.getNbres_velo_max()){
-							 System.out.println("combien de place reservez vous sachant que dans cette voiture il ne reste plus que : "+(voiture.getNbres_velo_max()-totalresaV)+
-									 "place (s) velo (s)"); nbrevelo=Clavier.lireInt();
-								while(nbrevelo<0 || nbrevelo>voiture.getNbres_velo_max()-totalresaV){
-									System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET  "+(voiture.getNbres_velo_max()-totalresaV));
-									nbrevelo = Clavier.lireInt();
-								}
-						 }
-						else
-							 System.out.println("desole dans cette voiture ya plus de place velo       ");
-						if(nbrplace==0 && nbrevelo==0){
-							System.out.println("desole aucune reservation n'a ete faite ");
-							System.exit(0);
+					else{
+						int[] tabData1  = new int[balade.getListVoiture().size()];
+						for(Voiture voiture : balade.getListVoiture())
+							tabData1[k++]=voiture.getId();
+						balade.afficheListVoiture();
+						 System.out.println(); System.out.println();
+						 System.out.print("choisir un numero correspondant a votre voiture : ");numVoiture = Clavier.lireInt();
+						 System.out.println();
+						while(FonctionUtile.testValeur(tabData1, numVoiture)){
+							System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE CORRESPONDANT A UN NOMBRE CI-DESSUS");
+							numVoiture = Clavier.lireInt();
 						}
-						else{
-							int[] tabData  = {numPers,numVoiture,nbrplace,nbrevelo};
-							Passage passage = new Passage();
-							passage.setTabData(tabData);
-							dao<Passage> passageDao = adf.getPassageDAO();
-							passageDao.create(passage);
+						Voiture voiture = new Voiture();
+						dao<Voiture> voitureDao = adf.getVoitureDAO();
+						voiture=voitureDao.find(numVoiture);
+						for (Passage passage :voiture.getListPassage()){
+							totalresaP+= passage.getNbrPlaceresa();
+							totalresaV+= passage.getNbrveloresa();
+						}
+						if(totalresaP<voiture.getNbres_pers_max()){
+							 System.out.println("combien de place reservez vous sachant que dans cette voiture il ne reste plus que : "+(voiture.getNbres_pers_max()-totalresaP)+
+									 "place (s) personne(s)");nbrplace= Clavier.lireInt();
+								while(nbrplace<0 || nbrplace>voiture.getNbres_pers_max()-totalresaP){
+									System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET  "+(voiture.getNbres_pers_max()-totalresaP));
+									nbrplace = Clavier.lireInt();
+								}
+							 
+						 }
+						
+							
+							if(totalresaV<voiture.getNbres_velo_max()){
+								 System.out.println("combien de place reservez vous sachant que dans cette voiture il ne reste plus que : "+(voiture.getNbres_velo_max()-totalresaV)+
+										 "place (s) velo (s)"); nbrevelo=Clavier.lireInt();
+									while(nbrevelo<0 || nbrevelo>voiture.getNbres_velo_max()-totalresaV){
+										System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET  "+(voiture.getNbres_velo_max()-totalresaV));
+										nbrevelo = Clavier.lireInt();
+									}
+							 }
+							else
+								 System.out.println("desole dans cette voiture ya plus de place velo       ");
+							if(nbrplace==0 && nbrevelo==0){
+								System.out.println("desole aucune reservation n'a ete faite ");
+								System.exit(0);
+							}
+							else{
+								int[] tabData  = {numPers,numVoiture,nbrplace,nbrevelo};
+								Passage passage = new Passage();
+								passage.setTabData(tabData);
+								dao<Passage> passageDao = adf.getPassageDAO();
+								passageDao.create(passage);
+							}
 						}
 					}
 					else{
@@ -241,11 +239,9 @@ public class FonctionUtile {
 				System.out.println(" ***********************************  RECAPITULATIF   **************************************************");
 				Calendrier calendrier = new Calendrier() ;
 				dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
-				CatPersonne catPers = new CatPersonne();
 				dao<CatPersonne> catPersrDao = adf.getCatPersonneDAO();
 				
 				calendrier=calendrierDao.baladeCategorie(id_cat);
-				//calendrier.afficheCalandrier();
 				calendrier.getListBalade();
 				int k1=0;
 				Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
@@ -266,7 +262,7 @@ public class FonctionUtile {
 					System.out.println("desole y a pas de balade ");
 			}
 			else{
-				System.out.println(" ***********************************  CALCUL ET AFFICHARGE FORFAIT  **************************************************");
+				System.out.println(" ***********************************  CALCUL ET AFFICHARGE FORFAIT  ******************************************");
 				int nbrekm=0;float prixunit=0;
 				Calendrier calendrier = new Calendrier() ;
 				dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
@@ -275,20 +271,21 @@ public class FonctionUtile {
 				Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
 				for (Balade balade : calendrier.getListBalade()){
 					tabData2[k1++]=balade;
-					System.out.print(" numero balade :  "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
+					System.out.println(" numero balade :  "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
 				}
 				if(k1!=0){
 					System.out.println();
-					System.out.print(" entre le numero d'une balade  "); choix=Clavier.lireInt();
+					System.out.print(" entre le numero d'une balade : "); choix=Clavier.lireInt();
+					System.out.println();
 					while(choix<1 || choix>k1){
 						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET "+k1);
 						choix = Clavier.lireInt();
 					}
 					System.out.println();
 					System.out.println();
-					System.out.print("entre le nombre de kilometre pour arriver au lieu de depart de cette balade"); nbrekm=Clavier.lireInt();
+					System.out.print("entre le nombre de kilometre pour arriver au lieu de depart de cette balade  : "); nbrekm=Clavier.lireInt();
 					System.out.println();
-					System.out.print(" entrer le prix unitaire pour un km  "); prixunit=Clavier.lireFloat();
+					System.out.print(" entrer le prix au km  : "); prixunit=Clavier.lireFloat();
 					System.out.println();
 					tabData2[choix-1].afficheForfaitBalade(nbrekm, prixunit);
 				}
@@ -296,5 +293,147 @@ public class FonctionUtile {
 					System.out.println("desole y a pas de balade ");
 			}
 		}
+	}
+	public static void inscription(){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		String nom=null,prenom=null,email=null,password=null;
+		int confirme=0;int choix3=0;
+		do{
+		System.out.println("*********************************************** s'inscrire *****************************************************************");
+		System.out.println();
+		System.out.print(" entrer votre nom      :  "); nom=Clavier.lireString();System.out.println();
+		System.out.print(" entrer votre prenom   :  "); prenom=Clavier.lireString();System.out.println();
+		System.out.print(" entrer votre email    :  "); email =Clavier.lireString();System.out.println();
+		System.out.print(" entrer votre password :  "); password=Clavier.lireString();System.out.println(); 
+		System.out.println();
+		System.out.println(" dans quelle categorie voulez-vous inscrire :  ");
+		System.out.println();
+		System.out.println(" 1\t  categorie Cyclo  ");
+		System.out.println(" 2\t  categorie VTT Randonneurs ");
+		System.out.println(" 3\t  categorie VTT Trialistes  ");
+		System.out.println(" 4\t  categorie VTT Descendeurs ");
+		System.out.println(" Votre choix : ");choix3=Clavier.lireInt();
+		while(choix3<1 || choix3>4){
+			System.out.print("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 4 ");
+			choix3 = Clavier.lireInt();System.out.println();
+		}
+		System.out.println();
+		System.out.println("**************      infos saisie        **************************************************");
+		System.out.println();
+		System.out.println(" nom         :  "+nom);
+		System.out.println(" prenom      :  "+prenom);
+		System.out.println(" email       :  "+email);
+		System.out.println(" password    :  "+password);
+		System.out.println(" statut      :   membre");
+    	if(choix3==1){
+	    	System.out.print(" Categorie : Cyclo(Velo sur route )");
+	    	System.out.println();
+    	}
+    	if(choix3==2){
+	    	System.out.print(" Categorie :  VTT descendeurs");
+	    	System.out.println();
+    	}
+    	if(choix3==3){
+	    	System.out.print(" Categorie : VTT Randonneurs");
+	    	System.out.println();
+    	}
+    	if(choix3==4){
+	    	System.out.print(" Categorie :  VTT Trialistes");
+	    	System.out.println();
+    	}
+    	Membre membre1 =new Membre(nom,prenom,email,password,"membre");
+		dao<Membre> membreDao1 = adf.getMembreDAO();
+		membre1=membreDao1.connecter(email,password);
+		if(membre1==null){
+			System.out.println(" pour confirmer entrer 0 et autre nombre pour modifier ");confirme=Clavier.lireInt();
+		}
+		else{
+			System.out.println(" il existe deja un membre avec cette email ");confirme=1;
+		}
+		}while(confirme!=0);
+		Membre membre =new Membre(nom,prenom,email,password,"membre");
+		dao<Membre> membreDao = adf.getMembreDAO();
+		membreDao.create(membre);
+	
+		dao<Membre> membreDao1 = adf.getMembreDAO();
+		membre=membreDao1.connecter(email,password);
+		CatPersonne catP = new CatPersonne(choix3,membre.getId());
+		dao<CatPersonne> catPDao = adf.getCatPersonneDAO();
+		catPDao.create(catP);
+	}
+	public static void seConnecter(){
+		AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+		System.out.println("*********************************************** connexion *****************************************************************");
+		int count=0; 
+		Membre membre = new Membre();
+		do{
+				System.out.print(" email "); String email = Clavier.lireString();System.out.println(); 
+				System.out.print(" password "); String pass=Clavier.lireString();System.out.println();
+				count++;
+				dao<Membre> membreDao = adf.getMembreDAO();
+				membre=membreDao.connecter(email,pass);
+				if(membre==null)
+					System.out.println("desole votre mot de passe ou votre email n est pas correct il vous reste : "+(3-count)+" tentative(s)");
+					System.out.println();
+				if((3-count)==0){
+					System.out.println("desole votre nombre de tentative est epuise \n aurevoir ");	
+					System.exit(0);
+				}
+				
+		}while(membre==null);
+		if(membre.getStatut().compareTo("membre")!=0){
+			if(membre.getStatut()=="tresorier"){
+				
+			}
+			/***************************************************************************************************************************************/
+			/**                                                    se connecter comme responsable categorie                                       **/
+			/***************************************************************************************************************************************/
+			else if((membre.getStatut().compareTo("cat_cyclo"))==0){
+				int sortir=0;
+				do{
+					FonctionUtile.ISResponsable(membre, 1);
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
+			}
+			else if((membre.getStatut().compareTo("cat_vtt_rand"))==0){
+				int sortir=0;
+				do{
+					FonctionUtile.ISResponsable(membre, 2);
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+			}while(sortir==0);
+			}
+			else if((membre.getStatut().compareTo("cat_vtt_trial"))==0){
+				int sortir=0;
+				do{
+					FonctionUtile.ISResponsable(membre, 3);
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+			}while(sortir==0);
+			}
+			else if((membre.getStatut().compareTo("cat_vtt_desc"))==0){
+				int sortir=0;
+				do{
+					FonctionUtile.ISResponsable(membre, 4);
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+			}while(sortir==0);
+			}
+			else
+			{System.out.println(membre.getStatut());System.exit(0);}
+		}
+		else{
+			/***************************************************************************************************************************************/
+			/**                                                    se connecter comme membre                                                      **/
+			/***************************************************************************************************************************************/
+			int sortir=0;
+			do{
+				FonctionUtile.ISMmenbre(membre);
+				System.out.println();
+				System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+			}while(sortir==0);
+		}
+		System.out.println(" aurevoir ");
 	}
 }

@@ -47,8 +47,25 @@ public class CalendrierDAO extends dao<Calendrier>{
 		   if(result.first()){
 			   result.beforeFirst();
 			   BaladeDAO baladeDAO = new BaladeDAO(this.connect);
-		       while(result.next())
-		            calendrier.addBalade(baladeDAO.find(result.getInt("id_balade")));
+			   while(result.next()){
+					Date date1 = new Date();
+					Date date2 = new Date();
+					Calendar calendar1 = Calendar.getInstance();
+					Calendar calendar2 = Calendar.getInstance();
+				    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+				    try {
+						date1=format1.parse(result.getString("date_balade"));
+						calendar1.setTime(date1);
+						calendar2.setTime(date2);
+						
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    if(calendar1.after(calendar2)){
+				    	calendrier.addBalade(baladeDAO.find(result.getInt("id_balade")));
+				    }
+		       }
 		       calendrier1=calendrier;
 		   }
 			       
