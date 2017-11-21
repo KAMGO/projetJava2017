@@ -87,7 +87,7 @@ public class Balade {
 		else
 			System.out.println(" quelqu'un a reseve plus d'une place ");
 	}
-	public void afficheForfaitBalade(int nbrekm,int prixUnitaire){
+	public void afficheForfaitBalade(int nbrekm,float prixUnitaire){
 		for(Voiture voiture : this.listVoiture){
 			voiture.affichForfaitCalcul(nbrekm, prixUnitaire);
 		}	

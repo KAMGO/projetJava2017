@@ -102,8 +102,8 @@ public class Voiture {
 		}
 		return somPassage;
 	}
-	public int affichForfaitCalcul(int nbrekm,int prixUnitaire){
-		int som=0,somTotal=nbrekm*prixUnitaire;
+	public float affichForfaitCalcul(int nbrekm,float prixUnitaire){
+		 float som =0, somTotal=nbrekm*prixUnitaire;
 		if(this.totalPassageVoi()==0){
 			System.out.println(" imposible de calcul un forfait car il n'y a pas de covoitureur dans la voiture  "+this.id);
 		}

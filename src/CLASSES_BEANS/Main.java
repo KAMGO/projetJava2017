@@ -172,7 +172,7 @@ public class Main {
 							System.out.println("desole y a pas de balade ");
 					}
 					else{
-						int nbrekm=0,prixunit=0;
+						int nbrekm=0;float prixunit=0;
 						Calendrier calendrier = new Calendrier() ;
 						dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
 						calendrier=calendrierDao.baladeCategorie(1);
@@ -193,7 +193,7 @@ public class Main {
 							System.out.println();
 							System.out.print("entre le nombre de kilometre pour arriver au lieu de depart de cette balade"); nbrekm=Clavier.lireInt();
 							System.out.println();
-							System.out.print(" entrer le prix unitaire pour un km  "); prixunit=Clavier.lireInt();
+							System.out.print(" entrer le prix unitaire pour un km  "); prixunit=Clavier.lireFloat();
 							System.out.println();
 							tabData2[choix-1].afficheForfaitBalade(nbrekm, prixunit);
 						}
