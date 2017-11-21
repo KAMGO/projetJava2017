@@ -42,8 +42,7 @@ public class Calendrier {
 				calendar2.setTime(date2);
 				
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println(" probleme avec la date "+e);
 			}
 		    if(calendar1.after(calendar2)){
 		    	if(balade.getIdCat()==1){

@@ -1,6 +1,8 @@
 package CLASSES_BEANS;
 import UTILITAIRE.*;
 
+import java.io.Console;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,198 +43,143 @@ public class Main {
 	
 	
 /******************************************connexion*******************************************/
-
-	 	int numBalade;
-		int numVoiture;
-		int numPers=0;
-		int totalresaV=0;
-		int totalresaP=0;
-		int n,count=0;
-		int nbrplace=0;
-		int nbrevelo=0;
-		int numCategorie=0; 
-		System.out.println("*************************connexion******************************");
-		Membre membre = new Membre();
-		do{
-				System.out.print(" email "); String email = Clavier.lireString();System.out.println();
-				System.out.print(" password "); String pass=Clavier.lireString();System.out.println();
-				count++;
-				dao<Membre> membreDao = adf.getMembreDAO();
-				membre=membreDao.connecter(email,pass);
-				if(membre==null)
-					System.out.println("desole votre mot de passe ou votre email n est pas correct il vous reste : "+(3-count)+" tentative(s)");
-					System.out.println();
-				if((3-count)==0){
-					System.out.println("desole votre nombre de tentative est epuise \n aurevoir ");	
-					System.exit(0);
-				}
-				
-		}while(membre==null);
-		numPers = membre.getId();
-		if(membre.getStatut().compareTo("membre")!=0){
-			if(membre.getStatut()=="tresorier"){}
-			/***************************************************************************************************************************************/
-			/**                                                    se connecter comme responsable categorie Cyclo                                 **/
-			/***************************************************************************************************************************************/
-			else if((membre.getStatut().compareTo("cat_cyclo"))==0){
-				int choix=0;
-				int mois=0;
-				int annee=0;
-				int jour=0;
-				String lieuBalade=null;
-				Date date = new Date();
-				DateUser dateUser = new DateUser();
-				DateUser dateUser1 = new DateUser();
-				Calendar calendar = Calendar.getInstance();
-				Calendar calendar1 = Calendar.getInstance();
-				Calendar calendar2 = Calendar.getInstance();
-			    SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-			    
-				System.out.println("voulez-vous continuez comme  membre ou comme responsable de la categorie Cyclo ");
-				System.out.println("1\t membre");
-				System.out.println("2\t responsable de la categorie Cyclo ");
-				System.out.print("votre choix :");choix = Clavier.lireInt();
-				while(choix<1 || choix>2){
-					System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 2");
-					choix = Clavier.lireInt();
-				}
-				if(choix==1){
-					FonctionUtile.ISMmenbre(membre);
-				}
-				else{
-					System.out.println(" que voulez-faire  : ");
-					System.out.println(" 1\t ajouter une balade : ");
-					System.out.println(" 2\t afficher le recapitulatif des disponibilites ");
-					System.out.println(" 3\t affiche le montant a payer par covoitureur   ");
-					System.out.print("votre choix : ");choix= Clavier.lireInt();
-					while(choix<1 || choix>3){
-						System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 3");
-						choix = Clavier.lireInt();
-					}
-					if(choix==1){
-						System.out.println(" ***********************************  Ajout d'une balade dans la categorie Cyclo **************************************************");
-						System.out.print("entre l'annee : ");annee= Clavier.lireInt();
-						System.out.print("entre le mois : ");mois= Clavier.lireInt();
-						System.out.print("entre le jour : ");jour= Clavier.lireInt(); 
-						dateUser = new DateUser(jour,mois,annee);
-						
-						while(!dateUser.dateCorrecte()){
-							System.out.println(" date incorrecte entrer la date   ");
-							System.out.print("entre l'annee : ");annee= Clavier.lireInt();
-							System.out.print("entre le mois : ");mois= Clavier.lireInt();
-							System.out.print("entre le jour : ");jour= Clavier.lireInt(); 
-							dateUser=new DateUser(jour,mois,annee);
-						}
-						calendar1.set(dateUser.getAnnee(),dateUser.getMois()-1,dateUser.getJour());
-						calendar.setTime(date);
-						dateUser1 =new DateUser(calendar.get(Calendar.DAY_OF_MONTH),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.YEAR));
-						dateUser1=dateUser1.ajoutJours(30);
-						calendar2.set(dateUser1.getAnnee(),dateUser1.getMois()-1,dateUser1.getJour());
-						while(calendar2.after(calendar1)){
-							System.out.println(" la date d'une balade doit etre la date d'aujourdhui plus au moins 30jours  ");
-							System.out.print("entre l'annee : ");annee= Clavier.lireInt();
-							System.out.print("entre le mois : ");mois= Clavier.lireInt();
-							System.out.print("entre le jour : ");jour= Clavier.lireInt(); 
-							dateUser=new DateUser(jour,mois,annee);
-							calendar1.set(dateUser.getAnnee(),dateUser.getMois()-1,dateUser.getJour());
-						}
-						String formatted = format1.format(calendar1.getTime());
+		int choix2=0;
+		System.out.println("Bienvenue");
+		System.out.println("1\t se connecter ");
+		System.out.println("2\t s'inscrire ");
+		System.out.print(" votre choix : ");Clavier.lireInt();
+		while(choix2<1 || choix2>2){
+			System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 2 ");
+			choix2 = Clavier.lireInt();
+		}
+		if(choix2==1){
+			System.out.println("*********************************************** connexion *****************************************************************");
+			int count=0; 
+			Membre membre = new Membre();
+			do{
+					System.out.print(" email "); String email = Clavier.lireString();System.out.println(); 
+					System.out.print(" password "); String pass=Clavier.lireString();System.out.println();
+					count++;
+					dao<Membre> membreDao = adf.getMembreDAO();
+					membre=membreDao.connecter(email,pass);
+					if(membre==null)
+						System.out.println("desole votre mot de passe ou votre email n est pas correct il vous reste : "+(3-count)+" tentative(s)");
 						System.out.println();
-						System.out.print("entre le lieu de la balade  "); lieuBalade=Clavier.lireString();
-						Balade balade = new Balade(lieuBalade,formatted,1);
-						dao<Balade> baladeDAO = adf.getBaladeDAO();
-						baladeDAO.create(balade);
+					if((3-count)==0){
+						System.out.println("desole votre nombre de tentative est epuise \n aurevoir ");	
+						System.exit(0);
 					}
-					else if(choix==2){
-
-						Calendrier calendrier = new Calendrier() ;
-						dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
-						CatPersonne catPers = new CatPersonne();
-						dao<CatPersonne> catPersrDao = adf.getCatPersonneDAO();
-						
-						calendrier=calendrierDao.baladeCategorie(1);
-						//calendrier.afficheCalandrier();
-						calendrier.getListBalade();
-						int k1=0;
-						Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
-						for (Balade balade : calendrier.getListBalade()){
-							tabData2[k1++]=balade;
-							System.out.println(" numero balade : "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
-						}
-						System.out.println(" entre le numero d'une balade  "); choix=Clavier.lireInt();
-						while(choix<1 || choix>k1){
-							System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET "+k1);
-							choix = Clavier.lireInt();
-						}
-						System.out.println();
-						System.out.println();
-						if(k1!=0)
-							tabData2[choix-1].afficheRecapBal(catPersrDao.find(1).getListMembreCat());
-						else
-							System.out.println("desole y a pas de balade ");
-					}
-					else{
-						int nbrekm=0;float prixunit=0;
-						Calendrier calendrier = new Calendrier() ;
-						dao<Calendrier> calendrierDao = adf.getCalendrierDAO();
-						calendrier=calendrierDao.baladeCategorie(1);
-						int k1=0;
-						Balade[] tabData2  = new Balade[calendrier.getListBalade().size()];
-						for (Balade balade : calendrier.getListBalade()){
-							tabData2[k1++]=balade;
-							System.out.print(" numero balade :  "+k1+"  le lieu de la balade est  : "+balade.getLieuBalade());
-						}
-						if(k1!=0){
-							System.out.println();
-							System.out.print(" entre le numero d'une balade  "); choix=Clavier.lireInt();
-							while(choix<1 || choix>k1){
-								System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET "+k1);
-								choix = Clavier.lireInt();
-							}
-							System.out.println();
-							System.out.println();
-							System.out.print("entre le nombre de kilometre pour arriver au lieu de depart de cette balade"); nbrekm=Clavier.lireInt();
-							System.out.println();
-							System.out.print(" entrer le prix unitaire pour un km  "); prixunit=Clavier.lireFloat();
-							System.out.println();
-							tabData2[choix-1].afficheForfaitBalade(nbrekm, prixunit);
-						}
-						else
-							System.out.println("desole y a pas de balade ");
-					}
+					
+			}while(membre==null);
+			if(membre.getStatut().compareTo("membre")!=0){
+				if(membre.getStatut()=="tresorier"){
+					
 				}
+				/***************************************************************************************************************************************/
+				/**                                                    se connecter comme responsable categorie                                       **/
+				/***************************************************************************************************************************************/
+				else if((membre.getStatut().compareTo("cat_cyclo"))==0){
+					int sortir=0;
+					do{
+						FonctionUtile.ISResponsable(membre, 1);
+						System.out.println();
+						System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					}while(sortir==0);
+				}
+				else if((membre.getStatut().compareTo("cat_vtt_rand"))==0){
+					int sortir=0;
+					do{
+						FonctionUtile.ISResponsable(membre, 2);
+						System.out.println();
+						System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
+				}
+				else if((membre.getStatut().compareTo("cat_vtt_trial"))==0){
+					int sortir=0;
+					do{
+						FonctionUtile.ISResponsable(membre, 3);
+						System.out.println();
+						System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
+				}
+				else if((membre.getStatut().compareTo("cat_vtt_desc"))==0){
+					int sortir=0;
+					do{
+						FonctionUtile.ISResponsable(membre, 4);
+						System.out.println();
+						System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
+				}
+				else
+				{System.out.println(membre.getStatut());System.exit(0);}
 			}
-			else if((membre.getStatut().compareTo("cat_vtt_rand"))==0){}
-			else if((membre.getStatut().compareTo("cat_vtt_trial"))==0){}
-			else if((membre.getStatut().compareTo("cat_vtt_desc"))==0){}
-			else
-			{System.out.println(membre.getStatut());System.exit(0);}
+			else{
+				/***************************************************************************************************************************************/
+				/**                                                    se connecter comme membre                                                      **/
+				/***************************************************************************************************************************************/
+				int sortir=0;
+				do{
+					FonctionUtile.ISMmenbre(membre);
+					System.out.println();
+					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				}while(sortir==0);
+			}
+			System.out.println(" aurevoir ");
 		}
 		else{
-			FonctionUtile.ISMmenbre(membre);
+			String nom=null,prenom=null,email=null,password=null;
+			int confirme=0;int choix3=0;
+			do{
+			System.out.println("*********************************************** s'inscrire *****************************************************************");
+			System.out.println(" entrer votre nom      :  "); nom=Clavier.lireString();
+			System.out.println(" entrer votre prenom   :  "); prenom=Clavier.lireString();
+			System.out.println(" entrer votre email    :  "); email =Clavier.lireString();
+			System.out.println(" entrer votre password :  "); password=Clavier.lireString(); 
+			System.out.println();
+			System.out.println(" dans quelle categorie voulez-vous inscrire :  ");
+			System.out.println(" 1\t  categorie Cyclo  ");
+			System.out.println(" 2\t  categorie VTT Randonneurs ");
+			System.out.println(" 3\t  categorie VTT Trialistes  ");
+			System.out.println(" 4\t  categorie VTT Descendeurs ");
+			System.out.println(" Votre choix : ");choix2=Clavier.lireInt();
+			while(choix3<1 || choix3>4){
+				System.out.println("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 4 ");
+				choix3 = Clavier.lireInt();
+			}
+			System.out.println("************** infos saisie **************************************************");
+			System.out.println(" nom         :  "+nom);
+			System.out.println(" prenom      :  "+prenom);
+			System.out.println(" email       :  "+email);
+			System.out.println(" password    :  "+password);
+			System.out.println(" statut      :   membre");
+	    	if(choix3==1){
+		    	System.out.print(" Categorie : Cyclo(Velo sur route )");
+		    	System.out.println();
+	    	}
+	    	if(choix3==2){
+		    	System.out.print(" Categorie :  VTT descendeurs");
+		    	System.out.println();
+	    	}
+	    	if(choix3==3){
+		    	System.out.print(" Categorie : VTT Randonneurs");
+		    	System.out.println();
+	    	}
+	    	if(choix3==4){
+		    	System.out.print(" Categorie :  VTT Trialistes");
+		    	System.out.println();
+	    	}
+			
+			System.out.println(" pour confirme entrer 0 et autre nombre pour modifier ");confirme=Clavier.lireInt();
+			}while(confirme!=0);
+			Membre membre =new Membre(nom,prenom,email,password,"membre");
+			dao<Membre> membreDao = adf.getMembreDAO();
+			membreDao.create(membre);
+		
+			dao<Membre> membreDao1 = adf.getMembreDAO();
+			membre=membreDao1.connecter(email,password);
+			CatPersonne catP = new CatPersonne(choix3,membre.getId());
+			dao<CatPersonne> catPDao = adf.getCatPersonneDAO();
+			catPDao.create(catP);
 		}
-		/*System.out.println("CONNECTE VOUS COMME  : ");
-		//System.out.println("1 . Membre");
-		//System.out.println("2 . Responsable");
-		//System.out.println("3 . Tresorier");
-		//System.out.print("entrez votre choix : ");
-		//n = Clavier.lireInt();
-		//System.out.print("votre choix : " + n );
-		//System.out.println("");
-		while(n<1 || n>3){
-			System.out.print("VOTRE NOMBRE EST INCORRECTE VEUILLEZ ENTRE UN NOMBRE COMPRIS ENTRE 1 ET 3 : ");
-			n = Clavier.lireInt();
-		}
-		if(n==1){
-			//affiche le calendrier et choisir sa balade et reserve une place dans une voiture disponible
-		}
-		else if (n==2){
-			// choix responsabilite de la categorie,
-		}
-		else{
-			// tache du tresorier
-		}*/
 	}
-
-	/**********************************************  si c'est un membre qui est connecte ********************************************************/
 }
