@@ -20,9 +20,6 @@ protected static final Connection conn = ConnectAccess.getInstance();
 	public dao<Membre> getMembreDAO(){
 		return new MembreDAO(conn);
 	}
-	public dao<Personne> getPersonneDAO(){
-		return new PersonneDAO(conn);
-	}
 	public dao<Responsable> getResponsableDAO(){
 		return new ResponsableDAO(conn);
 	}

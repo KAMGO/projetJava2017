@@ -8,7 +8,6 @@ public abstract class AbstractDAOFactory {
 	public abstract dao<Balade> getBaladeDAO();
 	public abstract dao<Calendrier> getCalendrierDAO();
 	public abstract dao<Membre> getMembreDAO();
-	public abstract dao<Personne> getPersonneDAO();
 	public abstract dao<Tresorier> getTresorierDAO();
 	public abstract dao<Responsable> getResponsableDAO();
 	public abstract dao<Categorie> getCategorieDAO();

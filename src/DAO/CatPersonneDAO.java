@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import CLASSES_BEANS.Balade;
 import CLASSES_BEANS.CatPersonne;
 
 public class CatPersonneDAO extends dao<CatPersonne>{

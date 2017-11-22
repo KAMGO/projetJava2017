@@ -407,7 +407,7 @@ public class FonctionUtile {
 						FonctionUtile.ISTreserier();
 					}
 					System.out.println();
-					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					System.out.println(" entrer 0 pour continuer ou un autre nombre pour sortir "); sortir=Clavier.lireInt();
 				}while(sortir==0);
 			}
 			/***************************************************************************************************************************************/
@@ -418,7 +418,7 @@ public class FonctionUtile {
 				do{
 					FonctionUtile.ISResponsable(membre, 1);
 					System.out.println();
-					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					System.out.print(" entrer 0 pour continuer ou un autre nombre pour sortir   "); sortir=Clavier.lireInt();System.out.println();
 				}while(sortir==0);
 			}
 			else if((membre.getStatut().compareTo("cat_vtt_rand"))==0){
@@ -426,7 +426,7 @@ public class FonctionUtile {
 				do{
 					FonctionUtile.ISResponsable(membre, 2);
 					System.out.println();
-					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					System.out.print(" entrer 0 pour continuer  ou un autre nombre pour sortir "); sortir=Clavier.lireInt();System.out.println();
 			}while(sortir==0);
 			}
 			else if((membre.getStatut().compareTo("cat_vtt_trial"))==0){
@@ -434,7 +434,7 @@ public class FonctionUtile {
 				do{
 					FonctionUtile.ISResponsable(membre, 3);
 					System.out.println();
-					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					System.out.print(" entrer 0 pour continuer ou un autre nombre pour sortir  "); sortir=Clavier.lireInt();System.out.println();
 			}while(sortir==0);
 			}
 			else if((membre.getStatut().compareTo("cat_vtt_desc"))==0){
@@ -442,7 +442,7 @@ public class FonctionUtile {
 				do{
 					FonctionUtile.ISResponsable(membre, 4);
 					System.out.println();
-					System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+					System.out.print(" entrer 0 pour continuer ou un autre nombre pour sortir  "); sortir=Clavier.lireInt();System.out.println();
 			}while(sortir==0);
 			}
 			else
@@ -456,7 +456,7 @@ public class FonctionUtile {
 			do{
 				FonctionUtile.ISMmenbre(membre);
 				System.out.println();
-				System.out.println(" entrer 0 pour continuer  "); sortir=Clavier.lireInt();
+				System.out.print(" entrer 0 pour continuer  ou un autre nombre pour sortir  "); sortir=Clavier.lireInt();System.out.println();
 			}while(sortir==0);
 		}
 		System.out.println(" aurevoir ");
@@ -548,7 +548,6 @@ public class FonctionUtile {
 			Membre membre1= new Membre();
 			dao<Membre> membreDao = adf.getMembreDAO();
 			membre1=membreDao.find(numMembre);
-			System.out.println(" JE SUIS DANS FONCTION UTILE :"+membre1.getNom()+" +++ "+membre1.getId());
 			membreDao.update(new Membre(membre1.getId(),membre1.getNom(),membre1.getPrenom(),membre1.getEmail(),membre1.getPassword(),membre1.getStatut(),membre1.getPaye()+valeur));
 		}
 		else
