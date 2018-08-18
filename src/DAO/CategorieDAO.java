@@ -1,8 +1,11 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 
 import CLASSES_BEANS.*;
 
@@ -40,24 +43,43 @@ public class CategorieDAO extends dao<Categorie> {
 
 	@Override
 	public Categorie find(int id) {
-		return null;
+		Categorie categorie = null;            
+		 try {
+		   ResultSet result = this.connect.createStatement(
+		     ResultSet.TYPE_SCROLL_INSENSITIVE, 
+		     ResultSet.CONCUR_READ_ONLY
+		    ).executeQuery(
+		      "SELECT * FROM Categorie "+
+		      " where id_cat= '"+id+"'"
+		    );
+		    if(result.first()){
+		    	categorie = new Categorie(); 
+		    	categorie = new Categorie( result.getInt("id_cat"),result.getString("nom_cat"));
+		  }
+		 }catch (SQLException e) {
+			    e.printStackTrace();
+			  }
+		return categorie;
 	}
 
 	@Override
-	public Categorie connecter(String string, String string2) {
-		return null;
+	public Set<Categorie> getList() {
+		Categorie cat=null;
+		Set<Categorie> listCategorie = new HashSet<Categorie>();
+		  try {
+			    ResultSet result = this.connect.createStatement(
+			      ResultSet.TYPE_SCROLL_INSENSITIVE, 
+			      ResultSet.CONCUR_READ_ONLY
+			    ).executeQuery(
+			      "SELECT * FROM Categorie "
+			    );
+			    while(result.next()){
+			        cat = new Categorie( result.getInt("id_cat"),result.getString("nom_cat"));  
+			    	listCategorie.add(cat);					     
+			    }
+			  } catch (SQLException e) {
+			    e.printStackTrace();
+			  }
+		return listCategorie;
 	}
-
-	@Override
-	public Categorie EstDejaChauffeur(int id_pers1,int id_balade1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Categorie baladeCategorie(int id_balade) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

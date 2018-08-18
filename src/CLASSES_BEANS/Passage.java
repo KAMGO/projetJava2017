@@ -1,36 +1,20 @@
 package CLASSES_BEANS;
 
-public class Passage {
-	private int id=0;
-	private String nomPassage;
-	private String prenomPassage;
+public class Passage extends Personne{
+	// ATTRIBUTS
 	private int nbrPlaceresa;
 	private int nbrveloresa;
-	private int[] tabData  = new int[4];
+	//CONSTRUCTEURS
 	public Passage(){} 
-	public Passage(String nomPassage, String prenomPassage, int nbrPlaceresa, int nbrveloresa) {
-		this.nomPassage = nomPassage;
-		this.prenomPassage = prenomPassage;
+	public Passage(String nom,String prenom,String email,String password,String statut_pers,int nbrPlaceresa,int nbrveloresa) {
+		super(nom, prenom,email,password,statut_pers);
 		this.nbrPlaceresa = nbrPlaceresa;
 		this.nbrveloresa = nbrveloresa;
 	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getNomPassage() {
-		return nomPassage;
-	}
-	public void setNomPassage(String nomPassage) {
-		this.nomPassage = nomPassage;
-	}
-	public String getPrenomPassage() {
-		return prenomPassage;
-	}
-	public void setPrenomPassage(String prenomPassage) {
-		this.prenomPassage = prenomPassage;
+	public Passage(int id,String nom,String prenom,String email,String password,String statut_pers,int paye,int nbrPlaceresa,int nbrveloresa){
+		super(id,nom, prenom,email,password,statut_pers);
+		this.nbrPlaceresa = nbrPlaceresa;
+		this.nbrveloresa = nbrveloresa;
 	}
 	public int getNbrPlaceresa() {
 		return nbrPlaceresa;
@@ -44,12 +28,4 @@ public class Passage {
 	public void setNbrveloresa(int nbrveloresa) {
 		this.nbrveloresa = nbrveloresa;
 	}
-	public int[] getTabData() {
-		return tabData;
-	}
-	public void setTabData(int[] tabData) {
-		this.tabData = tabData;
-	}
-	
-	
 }

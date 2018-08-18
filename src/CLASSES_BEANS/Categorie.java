@@ -3,6 +3,7 @@ package CLASSES_BEANS;
 public class Categorie {
 	private int id=0;
 	private String nomCategorie;
+	public Categorie(){}
 	public Categorie(String nomCategorie) {
 		this.nomCategorie = nomCategorie;
 	}
@@ -22,4 +23,5 @@ public class Categorie {
 	public void setNomCategorie(String nomCategorie) {
 		this.nomCategorie = nomCategorie;
 	}
+	
 }

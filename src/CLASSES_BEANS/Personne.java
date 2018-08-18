@@ -1,6 +1,7 @@
 package CLASSES_BEANS;
 
 public class Personne {
+	// ATTRIBUTS
 	private int id = 0;
 	private String nom;
 	private String prenom;
@@ -8,7 +9,16 @@ public class Personne {
 	private String email;
 	private String password;
 	private int paye=0;
+	// CONSTRUCTEURS
 	public Personne(){}
+	public Personne(int id , String nom,String prenom,String email,String password,String statut){
+		this.id=id;
+		this.nom=nom;
+		this.prenom=prenom;
+		this.statut=statut;
+		this.email=email;
+		this.password=password;
+	}
 	public Personne(String nom,String prenom,String email,String password,String statut){
 		this.nom=nom;
 		this.prenom=prenom;
@@ -16,14 +26,16 @@ public class Personne {
 		this.email=email;
 		this.password=password;
 	}
-	public Personne(String nom,String prenom,String email,String password,String statut,int paye){
+	public Personne(int id,String nom,String prenom,String email,String password,String statut,int paye){
 		this.nom=nom;
 		this.prenom=prenom;
 		this.statut=statut;
 		this.email=email;
 		this.password=password;
 		this.paye=paye;
+		this.id=id;
 	}
+	// GETTERS ET SETTERS
 	public String getNom(){
 		return nom;
 	}
@@ -68,3 +80,4 @@ public class Personne {
 	}
 	
 }
+

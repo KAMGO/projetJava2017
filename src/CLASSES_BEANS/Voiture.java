@@ -3,28 +3,40 @@ package CLASSES_BEANS;
 import java.util.HashSet;
 import java.util.Set;
 
+import DAO.dao;
+import DAOFACTORY.AbstractDAOFactory;
+
 public class Voiture {
+	// ATTRIBUT
+	private AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private int id;
 	private int nbres_pers_max;
 	private int nbres_velo_max;
-	private int id_pers1;
-	private int id_balade;
+	private Membre membre;
+	private Balade balade;
 	private Set<Passage> listPassage = new HashSet<Passage>();
-	
+	// CONSTRUCTEURS
 	public Voiture(){}
-	public Voiture(int nbres_pers_max, int nbres_velo_max, int id_pers1, int id_balade) {
+	public Voiture(int nbres_pers_max, int nbres_velo_max,Membre membre,Balade balade) {
 		this.nbres_pers_max = nbres_pers_max;
 		this.nbres_velo_max = nbres_velo_max;
-		this.id_pers1 = id_pers1;
-		this.id_balade = id_balade;
+		this.membre = membre;
+		this.balade = balade;
 	}
-	public Voiture(int id,int nbres_pers_max, int nbres_velo_max, int id_pers1, int id_balade) {
+	public Voiture(int id,int nbres_pers_max, int nbres_velo_max,Membre membre,Balade balade) {
 		this.nbres_pers_max = nbres_pers_max;
 		this.nbres_velo_max = nbres_velo_max;
-		this.id_pers1 = id_pers1;
-		this.id_balade = id_balade;
+		this.membre = membre;
+		this.balade = balade;
 		this.id=id;
 	}
+	public Voiture(int id,int nbres_pers_max, int nbres_velo_max,Membre membre) {
+		this.nbres_pers_max = nbres_pers_max;
+		this.nbres_velo_max = nbres_velo_max;
+		this.membre = membre;
+		this.id=id;
+	}
+	// GETTTERS SETTERS
 	public int getId() {
 		return id;
 	}
@@ -43,18 +55,7 @@ public class Voiture {
 	public void setNbres_velo_max(int nbres_velo_max) {
 		this.nbres_velo_max = nbres_velo_max;
 	}
-	public int getId_pers1() {
-		return id_pers1;
-	}
-	public void setId_pers1(int id_pers1) {
-		this.id_pers1 = id_pers1;
-	}
-	public int getId_balade() {
-		return id_balade;
-	}
-	public void setId_balade(int id_balade) {
-		this.id_balade = id_balade;
-	}
+
 	public Set<Passage> getListPassage() {
 		return listPassage;
 	}
@@ -68,6 +69,24 @@ public class Voiture {
 	public void removeVoiture(Passage passage) {
 		    this.listPassage.remove(passage);
 	}
+	public Membre getMembre() {
+		return membre;
+	}
+	public void setMembre(Membre membre) {
+		this.membre = membre;
+	}
+	public Balade getBalade() {
+		return balade;
+	}
+	public void setBalade(Balade balade) {
+		this.balade = balade;
+	}
+	
+	//METHODES
+    public void createVoiture() {
+		dao<Voiture> voitureDao1 = adf.getVoitureDAO();
+		voitureDao1.create(this);
+    }
 	public void afficheRecapVoiture(){
 		int k1=0,somVelo=0,somPassage=0;
 		Passage[] tabData2  = new Passage[this.getListPassage().size()];
@@ -88,21 +107,28 @@ public class Voiture {
 			System.out.println("la voiture  "+this.id +" est vide ");
 			
 	}
-	public int totalVeloVoi(){
+	public int getRestPlaceVelo(){
 		int somVelo=0;
 		for (Passage passage : this.getListPassage()){
 			somVelo +=passage.getNbrveloresa();
 		}
-		return somVelo;
+		return nbres_velo_max-somVelo;
 	}
-	public int totalPassageVoi(){
+	public int getRestPlacePers(){
 		int somPassage=0;
 		for (Passage passage : this.getListPassage()){
 			somPassage +=passage.getNbrPlaceresa();
 		}
-		return somPassage;
+		return this.nbres_pers_max-somPassage;
 	}
-	public float affichForfaitCalcul(int nbrekm,float prixUnitaire){
+	public boolean savePassage() {
+		dao<Voiture> voitureDao1 = adf.getVoitureDAO();
+		return voitureDao1.update(this);	
+	}
+	public int montantAResevoir(int forfait) {
+		return forfait*this.getListPassage().size();
+	}
+	/*public float affichForfaitCalcul(int nbrekm,float prixUnitaire){
 		 float som =0, somTotal=nbrekm*prixUnitaire;
 		if(this.totalPassageVoi()==0){
 			System.out.println( "dans la voiture   "+this.id + " imposible de calcul un forfait car il n'y a pas de covoitureur");
@@ -112,6 +138,6 @@ public class Voiture {
 			System.out.println("tous les covoitureurs de la voiture  "+ this.id + "  doivent payer : "+som);
 		}
 		return som;
-	}
+	}*/
 	
 }

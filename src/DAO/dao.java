@@ -1,6 +1,6 @@
 package DAO;
 import java.sql.Connection;
-
+import java.util.Set;
 public abstract class dao<T> {
 	protected Connection connect = null;
 	
@@ -15,10 +15,8 @@ public abstract class dao<T> {
 	public abstract boolean update(T obj);
 	
 	public abstract T find(int id);
-
-	public abstract T connecter(String string, String string2);
-	public abstract T EstDejaChauffeur(int id_pers1,int id_balade1); //doit etre dans une classe appelle une liste 
-	public abstract T baladeCategorie(int id_balade);
+	
+	public abstract Set<T> getList();
 }
 // On ne doit pas avoir la classe passage ni CatPersonne
 // eviter de voir 

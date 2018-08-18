@@ -20,21 +20,17 @@ protected static final Connection conn = ConnectAccess.getInstance();
 	public dao<Membre> getMembreDAO(){
 		return new MembreDAO(conn);
 	}
-	public dao<Responsable> getResponsableDAO(){
+	/*public dao<Responsable> getResponsableDAO(){
 		return new ResponsableDAO(conn);
 	}
 	public dao<Tresorier> getTresorierDAO(){
 		return new TresorierDAO(conn);
-	}
+	}*/
 	public dao<Voiture> getVoitureDAO(){
 		return new VoitureDAO(conn);
 	}
 	@Override
 	public dao<Passage> getPassageDAO() {
 		return new PassageDAO(conn);
-	}
-
-	public dao<CatPersonne> getCatPersonneDAO() {
-		return new CatPersonneDAO(conn);
 	}
 }
