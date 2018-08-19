@@ -10,7 +10,6 @@ public class Membre extends Personne{
 	//ATTRIBUTS
 	private AbstractDAOFactory adf = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private Set<Categorie> listCategorie = new HashSet<Categorie>();
-	DAO_CLASS_BEANS daoClass = new DAO_CLASS_BEANS();
 	//CONSTRUCTEURS
 	public Membre(){}
 	public Membre(String nom,String prenom,String email,String password,String statut_pers){
