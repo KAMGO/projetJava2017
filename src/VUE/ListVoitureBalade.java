@@ -123,7 +123,6 @@ public class ListVoitureBalade extends JFrame {
 		    @Override
 		    public void mouseClicked(java.awt.event.MouseEvent evt) {
 		    	int ligne =table.getSelectedRow();
-		    	Passage passage = new Passage();
 		    	Voiture voiture = new Voiture();
 		    	// permet de recuperer la voiture selectionne
 				voiture = balade.getListVoiture().stream()
@@ -162,9 +161,13 @@ public class ListVoitureBalade extends JFrame {
 			    			voiture.setBalade(balade);
 			    			voiture.addPassage(new Passage(membre.getId(),membre.getNom(),membre.getPrenom(),membre.getEmail(),membre.getPassword(),membre.getStatut(),membre.getPaye(),1,0));
 			    			if(voiture.savePassage()) {
-			    				JOptionPane.showMessageDialog(null,"reservation reusie");
+			    				//JOptionPane.showMessageDialog(null,"reservation reusie");
 			    				membre.setPaye(membre.getPaye()+(int)balade.getForfait());
 			    				membre.updateMembre();
+			    				if(membre.getPaye()>0)
+			    					JOptionPane.showMessageDialog(null,"reservation reusie ! vous devez  : "+membre.getPaye()+"  veuillez a le solde via le tresorier merci !");
+			    				else
+			    					JOptionPane.showMessageDialog(null,"reservation reusie ! on vous doit  : "+(-1)*membre.getPaye()+"  veuillez contacter le tresorier merci !");
 			    			}
 			    			else
 			    				JOptionPane.showMessageDialog(null,"probleme avec la BD");
@@ -177,9 +180,12 @@ public class ListVoitureBalade extends JFrame {
 			    			voiture.setBalade(balade);
 			    			voiture.addPassage(new Passage(membre.getId(),membre.getNom(),membre.getPrenom(),membre.getEmail(),membre.getPassword(),membre.getStatut(),membre.getPaye(),0,1));
 			    			if(voiture.savePassage()) {
-			    				JOptionPane.showMessageDialog(null,"reservation reusie"+membre.getPaye());
 			    				membre.setPaye(membre.getPaye()+(int)balade.getForfait());
 			    				membre.updateMembre();
+			    				if(membre.getPaye()>0)
+			    					JOptionPane.showMessageDialog(null," reservation reussie !   vous devez deja a  "+membre.getPaye()+"  veuillez a solde votre compte");
+			    				else
+			    					JOptionPane.showMessageDialog(null," reservation reussie !  on vous doit :  "+(-1)*membre.getPaye()+"  veuillez a prendre attache evec le tresorier pour etre solde");
 			    			}
 			    			else
 			    				JOptionPane.showMessageDialog(null,"probleme avec la BD");

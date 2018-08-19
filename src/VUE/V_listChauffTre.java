@@ -18,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import CLASSES_BEANS.Balade;
+import CLASSES_BEANS.Membre;
 import CLASSES_BEANS.Voiture;
 
 public class V_listChauffTre extends JFrame {
@@ -32,7 +33,7 @@ public class V_listChauffTre extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public V_listChauffTre(Balade balade) {
+	public V_listChauffTre(Balade balade, Membre membre) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 508, 360);
 		contentPane = new JPanel();
@@ -83,6 +84,7 @@ public class V_listChauffTre extends JFrame {
 		scrollPane.setSize(476, 200);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new V_listBaladeTre(membre);
 				dispose();
 			}
 		});

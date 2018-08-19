@@ -36,7 +36,6 @@ public class V_reservation extends JFrame {
 	JScrollPane scrollPane = new JScrollPane();
 	JScrollPane scrollPaneV = new JScrollPane();
 	private JTable table;
-	private JTable table1;
 	Calendrier calendrier = new Calendrier();
 	Set<Balade> listBalade ;
 	/**
@@ -95,8 +94,10 @@ public class V_reservation extends JFrame {
 			scrollPane.setLocation(6, 46);
 			scrollPane.setSize(432, 200);
 		}
-		else
+		else {
 			JOptionPane.showMessageDialog(null,"aucune balade pour cette categorie ");
+			new V_membre(membre);
+			}
 		
 		
 		btnRetour.addActionListener(new ActionListener() {

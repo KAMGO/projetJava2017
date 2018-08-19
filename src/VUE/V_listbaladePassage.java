@@ -55,16 +55,16 @@ public class V_listbaladePassage extends JFrame {
 		});
 
 		
-		lblListeDesBalades = new JLabel("liste des balades de la "+membre.getStatut());
+		lblListeDesBalades = new JLabel("liste des balades ");
 		lblListeDesBalades.setBounds(124, 11, 239, 14);
 		contentPane.add(lblListeDesBalades);
 		
 		
 		Calendrier calendrier = new Calendrier();
-		Set<Balade> listBalade =calendrier.chargeCalendrier(membre.getStatut());
+		Set<Balade> listBalade =calendrier.chargeAllCalendrier();
 		String[] header = 	new String[] {"Id_balade", "lieu_balade", "date_balade", "forfait"};
 		
-		Object[][] data =new Object[calendrier.getListBalade().size()][4];
+		Object[][] data =new Object[listBalade.size()][4];
 		int j=0;
 		for(Balade balade :listBalade) {
 			
@@ -87,7 +87,7 @@ public class V_listbaladePassage extends JFrame {
 		table.setRowSelectionAllowed(true);
 		table.setBounds(10, 42, 460, 245);
 		scrollPane = new JScrollPane(table);
-		if(calendrier.getListBalade().size()!=0) {
+		if(listBalade.size()!=0) {
 			scrollPane.setBounds(10, 34, 478, 246);
 			contentPane.add(scrollPane);
 			
@@ -109,7 +109,7 @@ public class V_listbaladePassage extends JFrame {
 			});
 		}
 		else
-			JOptionPane.showMessageDialog(null,"aucune balade pour cette categorie ");
+			JOptionPane.showMessageDialog(null,"aucune balade ");
 	}
 
 }

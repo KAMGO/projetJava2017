@@ -104,6 +104,7 @@ public class V_recapDispoBalade extends JFrame {
 		    	Balade balade1 = new Balade(Integer.parseInt(table.getValueAt(ligne, 0).toString()),table.getValueAt(ligne, 1).toString(),table.getValueAt(ligne, 2).toString(),Integer.parseInt(table.getValueAt(ligne, 3).toString()));
 				balade1=listBalade.stream().filter(x->Integer.parseInt(table.getValueAt(ligne, 0).toString())==x.getId()).findAny().orElse(null);
 				new V_recapUneBalade(balade1,membre);
+				dispose();
 		    }
 		});
 	}

@@ -74,10 +74,14 @@ public class V_newCategorie extends JFrame {
 		btnValider.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(membre.newCategorie(comboBoxAsous.getSelectedItem().toString())) {
-					JOptionPane.showMessageDialog(null,"enregistre avec succes ");	
+					//JOptionPane.showMessageDialog(null,"enregistre avec succes ");	
 					int paye=membre.getPaye();
 					membre.setPaye(paye+5);
 					membre.updateMembre();
+					if(membre.getPaye()>0)
+    					JOptionPane.showMessageDialog(null," reservation reussie !   vous devez  "+membre.getPaye()+"  veuillez a solde votre compte");
+    				else
+    					JOptionPane.showMessageDialog(null," reservation reussie !  on vous doit :  "+(-1)*membre.getPaye()+"  veuillez a prendre attache evec le tresorier pour etre solde");
 				}
 				else
 					JOptionPane.showMessageDialog(null,"probleme de base de donnee");

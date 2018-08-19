@@ -104,8 +104,8 @@ public class V_listPassageBalade extends JFrame {
 					tabJour[i]=i+1;
 				 montant = (Integer)JOptionPane.showInputDialog(null, " Montant :", 
 		                "Montant payer par le user ", JOptionPane.QUESTION_MESSAGE, null, tabJour, tabJour[0]);
-				membre.setPaye(membre.getPaye()-montant);
 				if(montant!=null) {
+					membre.setPaye(membre.getPaye()-montant);
 					if(membre.updateMembre())
 						JOptionPane.showMessageDialog(null," la somme de : "+montant+ "  été  debitée du compte de : "+ membre.getNom());
 				}

@@ -66,7 +66,7 @@ public class V_membre extends JFrame {
 		for(Categorie cat : membre.getListCategorie())
 			comboBox.addItem(cat.getNomCategorie());
 		
-		
+		//permet de poster une disponibilite 
 		btnPosteDisponibilite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -170,6 +170,7 @@ public class V_membre extends JFrame {
 							scrollPane.setVisible(false);
 							lblListeDesBalades.setVisible(false);
 							btnRetour.setVisible(false);
+							btnQuitter.setVisible(false);
 							
 							btnRetour1.setBounds(179, 240, 89, 23);
 							contentPane.add(btnRetour1);
@@ -187,6 +188,7 @@ public class V_membre extends JFrame {
 								voiture.createVoiture();
 								JOptionPane.showMessageDialog(null,"disponibilite enregistre ");
 								new V_membre(membre);
+								dispose();
 								}
 							});
 						}
@@ -233,7 +235,7 @@ public class V_membre extends JFrame {
 				dispose();
 			}
 		});
-		btnQuitter.setBounds(204, 305, 89, 23);
+		btnQuitter.setBounds(284, 315, 89, 23);
 		
 		contentPane.add(btnQuitter);
 	

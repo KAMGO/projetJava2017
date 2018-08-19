@@ -141,10 +141,15 @@ public class V_inscription extends JFrame {
 					int etat =membre.inscription(nom.getText(), prenom.getText(), email.getText(), password.getText(),getRadioCategorie());
 					if(etat==0) {
 						conn.setEnabled(true);
-						JOptionPane.showMessageDialog(null,"inscription reusie !! ");
+						//JOptionPane.showMessageDialog(null,"inscription reusie !! ");
 							membre=membre.connexion(email.getText(), password.getText());
 		    				membre.setPaye(membre.getPaye()+20);
 		    				membre.updateMembre();
+		    				
+		    				if(membre.getPaye()>0)
+		    					JOptionPane.showMessageDialog(null,"inscription reusie !! vous devez  : "+membre.getPaye()+"  veuillez a le solde via le tresorier merci !");
+		    				else
+		    					JOptionPane.showMessageDialog(null,"inscription reusie !! on vous doit  : "+(-1)*membre.getPaye()+"  veuillez contacter le tresorier merci !");
 		    				V_inscription.this.dispose();
 					}
 					else if(etat==1)

@@ -201,7 +201,7 @@ public class V_ajoutBalade extends JFrame {
 							contentPane.add(btnRetour);
 							btnRetour.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
-									new V_ajoutBalade(membre);
+									new test(membre);
 									dispose();
 								}
 							});
@@ -214,14 +214,13 @@ public class V_ajoutBalade extends JFrame {
 							
 							contentPane.add(dateBalade);
 							Balade balade1 =new Balade();
-							balade1.setForfait(nbreKm, prixUnitaire);
+							balade1.setForfait(Balade.calculForfait(prixUnitaire, nbreKm));
 							forfait.setText(balade1.getForfait()+"");
-							
 							btnValider.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent arg0) {
 									if(!lieuBalade.getText().isEmpty()) {
 										Balade balade =new Balade(lieuBalade.getText(),formatted);
-										balade.setForfait(nbreKm, prixUnitaire);
+										balade.setForfait(Balade.calculForfait(prixUnitaire, nbreKm));
 										forfait.setText(balade.getForfait()+"");
 										if(balade.createBalade(membre.getStatut())) //appel de la methode permettant de creer une new balade
 											JOptionPane.showMessageDialog(null,"balade creee avec succes ");

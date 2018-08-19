@@ -88,8 +88,8 @@ public class Balade {
 	public int getForfait() {
 		return forfait;
 	}
-	public void setForfait(int nbrKm,float prixUnitaire) {
-		this.forfait = (int)prixUnitaire*nbrKm;
+	public void setForfait(int forfait) {
+		this.forfait = forfait;
 	}
 	//permet de verifier si le membre est deja chauffeur dans dans cette balade
 	public boolean estDejaChauffeur(int id_pers) {
@@ -136,29 +136,9 @@ public class Balade {
 		dao<Balade> baladeDAO = adf.getBaladeDAO();
 		return baladeDAO.create(this);
 	}
-	/*public void afficheListVoiture(){
-		System.out.println("numero voiture \t nombre max de place personne \t  nombre max de place velo \t");
-		for(Voiture voiture : this.listVoiture){
-			System.out.print(voiture.getId()+"\t\t\t\t"+voiture.getNbres_pers_max()+"\t\t\t\t"+voiture.getNbres_velo_max());
-			System.out.println();
-		}
-	}*/
-	/*public void afficheRecapBal(){
-		int som = 0,nbreVoiture=0;
-		for(Voiture voiture : this.listVoiture){
-			voiture.afficheRecapVoiture();
-			som += voiture.totalPassageVoi();
-			System.out.println();
-		}
-		if(som<listMembreCat.size()-nbreVoiture){
-			System.out.println("nous avons encore : "+(listMembreCat.size()-som)+ " qui n'ont/n'a pas de place donc manque de chauffeur");	
-		}
-		else if(som==listMembreCat.size()-nbreVoiture){
-			System.out.println(" tout le monde a une place dans une voiture ");	
-		}
-		else
-			System.out.println(" quelqu'un a reseve plus d'une place ");
-	}*/
+	public static int calculForfait(float prixUnitaire , int nbrKm) {
+		return (int)(prixUnitaire*nbrKm);
+	}
 	//recupere la liste des chauffeurs superflus
 	public Set<Voiture> chauffeurSuperflus(){
 		 Set<Voiture> listVoiture1=new HashSet<Voiture>();

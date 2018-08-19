@@ -47,7 +47,7 @@ public class V_listBaladeTre extends JFrame {
 		contentPane.add(btnRetour);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new V_listBaladeTre(membre);
+				new  V_tresorier(membre);
 				dispose();
 			}
 		});
@@ -59,10 +59,10 @@ public class V_listBaladeTre extends JFrame {
 		
 		
 		Calendrier calendrier = new Calendrier();
-		Set<Balade> listBalade =calendrier.chargeCalendrier(membre.getStatut());
+		Set<Balade> listBalade =calendrier.chargeAllCalendrier();
 		String[] header = 	new String[] {"Id_balade", "lieu_balade", "date_balade", "forfait"};
 		
-		Object[][] data =new Object[calendrier.getListBalade().size()][4];
+		Object[][] data =new Object[listBalade.size()][4];
 		int j=0;
 		for(Balade balade :listBalade) {
 			
@@ -85,7 +85,7 @@ public class V_listBaladeTre extends JFrame {
 		table.setRowSelectionAllowed(true);
 		table.setBounds(10, 42, 460, 245);
 		scrollPane = new JScrollPane(table);
-		if(calendrier.getListBalade().size()!=0) {
+		if(listBalade.size()!=0) {
 			scrollPane.setBounds(10, 34, 478, 246);
 			contentPane.add(scrollPane);
 			
@@ -101,13 +101,14 @@ public class V_listBaladeTre extends JFrame {
 			    	int ligne =table.getSelectedRow();
 			    	Balade balade1 = new Balade(Integer.parseInt(table.getValueAt(ligne, 0).toString()),table.getValueAt(ligne, 1).toString(),table.getValueAt(ligne, 2).toString(),Integer.parseInt(table.getValueAt(ligne, 3).toString()));
 					balade1=listBalade.stream().filter(x->Integer.parseInt(table.getValueAt(ligne, 0).toString())==x.getId()).findAny().orElse(null);
-					new V_listChauffTre(balade1);
+					new V_listChauffTre(balade1,membre);
+					dispose();
 					
 			    }
 			});
 		}
 		else
-			JOptionPane.showMessageDialog(null,"aucune balade pour cette categorie ");
+			JOptionPane.showMessageDialog(null,"aucune balade ");
 	}
 
 }

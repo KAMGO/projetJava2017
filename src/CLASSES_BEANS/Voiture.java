@@ -87,26 +87,6 @@ public class Voiture {
 		dao<Voiture> voitureDao1 = adf.getVoitureDAO();
 		voitureDao1.create(this);
     }
-	public void afficheRecapVoiture(){
-		int k1=0,somVelo=0,somPassage=0;
-		Passage[] tabData2  = new Passage[this.getListPassage().size()];
-		for (Passage passage : this.getListPassage()){
-			tabData2[k1++]=passage;
-			somVelo +=passage.getNbrveloresa();
-			somPassage +=passage.getNbrPlaceresa();
-		}
-		if(somVelo<this.nbres_velo_max)
-			System.out.println(" dans la voiture "+this.id +" il manque :"+(this.nbres_velo_max-somVelo)+" place(s) pour velo ");
-		else
-			System.out.println(" dans la voiture  "+this.id +" les places Velo sont complets ");
-		if(somPassage<this.nbres_pers_max)
-			System.out.println(" dans la voiture  "+this.id +" il manque :"+(this.nbres_pers_max-somPassage)+" place(s) pour personne");
-		else
-			System.out.println(" dans la voiture  "+this.id +" les places personnes sont completes ");
-		if(somVelo==0 && somPassage==0)
-			System.out.println("la voiture  "+this.id +" est vide ");
-			
-	}
 	public int getRestPlaceVelo(){
 		int somVelo=0;
 		for (Passage passage : this.getListPassage()){
@@ -125,6 +105,7 @@ public class Voiture {
 		dao<Voiture> voitureDao1 = adf.getVoitureDAO();
 		return voitureDao1.update(this);	
 	}
+	//montant que chaque chaffeur doit doit resevoir en fonction du nombre de passage
 	public int montantAResevoir(int forfait) {
 		return forfait*this.getListPassage().size();
 	}

@@ -61,17 +61,6 @@ public class Membre extends Personne{
 			if((membre1.getEmail()).compareTo(email)==0&&(membre1.getPassword()).compareTo(password)==0)
 				trouve=membre1;
 		}
-		/*/JOptionPane.showMessageDialog(null, trouve.getEmail());
-		if(trouve!=null) {
-			if(statut.compareTo("membre")==0&&"membre".compareTo(trouve.getStatut())==0)
-				etat=1;
-			if(statut.compareTo("tresorier")==0&&"tresorier".compareTo(trouve.getStatut())==0)
-				etat=2;
-			else
-				etat=3;
-		}
-		else
-			etat=0;*/
 		return trouve;
 	}
 	/********************************************* methode inscription membre *****************************************************************************************/

@@ -16,6 +16,10 @@ import java.awt.event.ActionEvent;
 
 public class V_tresorier extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 
@@ -45,6 +49,7 @@ public class V_tresorier extends JFrame {
 		btnPayePassage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new V_listbaladePassage(membre);
+				dispose();
 			}
 		});
 		btnPayePassage.setBounds(167, 137, 191, 23);
